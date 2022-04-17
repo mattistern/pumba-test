@@ -105,88 +105,90 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/background_register.jpg'),
-                fit: BoxFit.cover),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'REGISTER',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
+        body: SafeArea(
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/background_register.jpg'),
+                  fit: BoxFit.cover),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'REGISTER',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    CardTextInput(
-                      controller: _firstNameController,
-                      lableText: 'First Name',
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please insert first name';
-                        }
-                        return null;
-                      },
-                    ),
-                    CardTextInput(
-                      controller: _lastNameController,
-                      lableText: 'Last Name',
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please insert last name';
-                        }
-                        return null;
-                      },
-                    ),
-                    CardTextInput(
-                      controller: _emailController,
-                      lableText: 'Email',
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please insert email';
-                        }
-                        return null;
-                      },
-                    ),
-                    GenderSelection(
-                      selectedGender: _gender,
-                      setGenderFn: _setGender,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                        return ScaleTransition(
-                          scale: animation,
-                          child: child,
-                        );
-                      },
-                      child: _userProvider.isLoading
-                          ? const CircularProgressIndicator()
-                          : ElevatedButton(
-                              onPressed: _trySubmit,
-                              child: const Text('Register'),
-                            ),
-                    ),
-                  ],
+                const SizedBox(
+                  height: 50,
                 ),
-              ),
-            ],
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      CardTextInput(
+                        controller: _firstNameController,
+                        lableText: 'First Name',
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please insert first name';
+                          }
+                          return null;
+                        },
+                      ),
+                      CardTextInput(
+                        controller: _lastNameController,
+                        lableText: 'Last Name',
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please insert last name';
+                          }
+                          return null;
+                        },
+                      ),
+                      CardTextInput(
+                        controller: _emailController,
+                        lableText: 'Email',
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please insert email';
+                          }
+                          return null;
+                        },
+                      ),
+                      GenderSelection(
+                        selectedGender: _gender,
+                        setGenderFn: _setGender,
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        transitionBuilder:
+                            (Widget child, Animation<double> animation) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          );
+                        },
+                        child: _userProvider.isLoading
+                            ? const CircularProgressIndicator()
+                            : ElevatedButton(
+                                onPressed: _trySubmit,
+                                child: const Text('Register'),
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

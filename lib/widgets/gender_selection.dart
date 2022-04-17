@@ -14,7 +14,7 @@ class GenderSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //build the gender card and icon, check if the card need to be selected or not.
+    //Build the gender card and icon, check if the card need to be selected or not.
     Widget _buildGenderCard({
       required IconData iconData,
       required Gender gender,

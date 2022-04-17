@@ -4,6 +4,7 @@ import 'package:pumba_test/screens/waiting_screen.dart';
 
 import '../providers/user_provider.dart';
 
+//this widget don't work good
 class UserNameDisplay extends StatelessWidget {
   const UserNameDisplay({Key? key}) : super(key: key);
 

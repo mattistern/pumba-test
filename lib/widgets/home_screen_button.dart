@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class HomeScreenButton extends StatelessWidget {
   final String title;
   final Function() onPressed;
+
   const HomeScreenButton({
     Key? key,
     required this.title,

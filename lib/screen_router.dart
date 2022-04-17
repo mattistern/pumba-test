@@ -11,6 +11,8 @@ class ScreenRouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Here we manage the shared pref.
+    //if the user is already registerd here we send him to the home screen.
     var sharedPrefProvider =
         Provider.of<SharedPrefProvider>(context, listen: false);
     // Is Register
@@ -25,6 +27,7 @@ class ScreenRouter extends StatelessWidget {
             return sharedPrefProvider.isRegister
                 ? const HomeScreen()
                 : const RegisterScreen();
+
           default:
             return Scaffold(
               body: Container(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//This widget build the text input and manage UI for it.
 class CardTextInput extends StatelessWidget {
   final TextEditingController controller;
   final String lableText;
@@ -16,7 +17,6 @@ class CardTextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 10.0,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: TextFormField(

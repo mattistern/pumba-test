@@ -4,6 +4,7 @@ import 'package:pumba_test/screens/waiting_screen.dart';
 
 import 'package:pumba_test/utils/user_location.dart';
 
+//This widget isn't done and not working good!!!
 class AddressDisplay extends StatelessWidget {
   final Position position;
 
