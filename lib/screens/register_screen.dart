@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +6,7 @@ import 'package:pumba_test/providers/shared_pref_provider.dart';
 import 'package:pumba_test/providers/user_provider.dart';
 import 'package:pumba_test/screens/home_screen.dart';
 import 'package:pumba_test/widgets/gender_selection.dart';
-import '../widgets/card_text_input.dart';
+import 'package:pumba_test/widgets/card_text_input.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -17,15 +16,22 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  //3 controllers for the the fields
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
+
   var _gender = Gender.other;
 
+  //a form for validation
   final _formKey = GlobalKey<FormState>();
 
   late UserProvider _userProvider;
 
+  ///Try to submit user registration.
+  ///
+  ///The text field can't be empty.
+  ///The gender is initialized to Gender.other.
   Future<void> _trySubmit() async {
     var valid = _formKey.currentState!.validate();
     if (valid) {

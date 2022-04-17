@@ -1,3 +1,7 @@
+///enum of:
+/// - male
+/// - female
+/// - other
 enum Gender {
   male,
   female,
@@ -17,6 +21,7 @@ class UserModel {
     required this.gender,
   });
 
+  ///Creates a Json map
   Map<String, dynamic> toJson() {
     return {
       'firstName': firstName,
@@ -26,7 +31,7 @@ class UserModel {
     };
   }
 
-  /// tranform gender to string
+  ///Tranforms gender to string
   String _genderToString() {
     switch (gender) {
       case Gender.male:

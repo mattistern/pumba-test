@@ -10,6 +10,10 @@ class UserProvider with ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
+  ///Rgister the user in Firebasa Firestore.
+  ///
+  ///We have a bool property twice, start and end.
+  ///The bool is called 'isLoading' with notifyListeners().
   Future<void> registerUser(UserModel userModel) async {
     _isLoading = true;
     notifyListeners();
@@ -23,5 +27,5 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getUser() {}
+  //void getUser() {}
 }

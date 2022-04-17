@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import 'package:pumba_test/screens/waiting_screen.dart';
 import 'package:pumba_test/utils/notification_service.dart';
 import 'package:pumba_test/utils/permissions.dart';
@@ -16,6 +17,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Punba Test'),
+      ),
       body: SafeArea(
         child: FutureBuilder(
           future: Future.wait([
@@ -63,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else {
+                  print(snapshot.data);
                   return const Center(
                     child: Text('Somthing went wrong'),
                   );
