@@ -105,18 +105,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        body: Padding(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/background_register.jpg'),
+                fit: BoxFit.cover),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Register!!',
+              const Text(
+                'REGISTER',
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.white,
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              SizedBox(
+                height: 50,
               ),
               Form(
                 key: _formKey,
@@ -157,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       setGenderFn: _setGender,
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 40,
                     ),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 200),

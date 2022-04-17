@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
 import 'package:pumba_test/models/user_model.dart';
 import 'package:pumba_test/screens/waiting_screen.dart';
@@ -21,6 +22,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var startIsPressed = false;
+
+  void startPress() {
+    setState(() {
+      startIsPressed = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
@@ -55,8 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        //UserNameDisplay(),
-                        //Text(userProvider.userModel.firstName),
+                        startIsPressed
+                            ? Text(
+                                'The notification will appear at ${DateFormat.Hm().format(DateTime.now().add(Duration(minutes: 2)))}')
+                            : Text('userProvider.userModel.firstName'),
                         locationPermissionGranted
                             ? Text(snapshot.data![2].toString())
                             // AddressDisplay(
@@ -77,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: 'Pumba',
                               body: 'Hi',
                             );
+                            startPress();
                           },
                         ),
                       ],

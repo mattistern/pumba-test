@@ -19,6 +19,7 @@ class UserProvider with ChangeNotifier {
     if (response.exists) {
       var user = response; //.data();
       print(user);
+      print(userId);
       print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
       //print(user.toString());
     }
@@ -41,7 +42,7 @@ class UserProvider with ChangeNotifier {
 
     setUserId(response.id);
 
-    _userModel = fromJsonToUser(response.parent as Map<String, dynamic>);
+    _userModel = fromJsonToUser(response.parent.parameters);
 
     _isLoading = false;
     notifyListeners();

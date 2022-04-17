@@ -32,7 +32,7 @@ class GenderSelection extends StatelessWidget {
     }
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildGenderCard(
           iconData: Icons.male_outlined,
@@ -43,7 +43,7 @@ class GenderSelection extends StatelessWidget {
           gender: Gender.female,
         ),
         _buildGenderCard(
-          iconData: Icons.abc,
+          iconData: Icons.person_outline_sharp,
           gender: Gender.other,
         ),
       ],

@@ -6,6 +6,7 @@ import 'package:timezone/data/latest.dart' as tz;
 class NotificationService {
   static final _notifications = FlutterLocalNotificationsPlugin();
 
+  ///Initializing the notification.
   static Future init() async {
     const android = AndroidInitializationSettings('@drawable/ic_notify');
     const settings = InitializationSettings(android: android);
@@ -16,6 +17,7 @@ class NotificationService {
     // tz.setLocalLocation(tz.getLocation(locationName));
   }
 
+  ///Determine the notification details.
   static NotificationDetails _notificationDetails() {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
@@ -29,6 +31,7 @@ class NotificationService {
     );
   }
 
+  ///Show the notification and what message will appear.
   static Future<void> showScheduledNotification({
     required int id,
     required String title,
