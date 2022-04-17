@@ -11,6 +11,7 @@ import 'package:pumba_test/utils/user_location.dart';
 import 'package:pumba_test/widgets/address_display.dart';
 import 'package:pumba_test/widgets/home_screen_button.dart';
 import 'package:pumba_test/providers/user_provider.dart';
+import 'package:pumba_test/widgets/user_name_disply.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,19 +21,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late UserProvider userProvider;
-
-  Future<UserModel> providerInit() async {
-    await Future.delayed(
-      Duration(milliseconds: 200),
-    );
-    userProvider = Provider.of<UserProvider>(context, listen: false);
-    return userProvider.userModel;
-  }
-
   @override
   Widget build(BuildContext context) {
-    //userProvider = Provider.of<UserProvider>(context, listen: false);
+    var userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -41,12 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: FutureBuilder(
           future: Future.wait([
-            //providerInit(),
             NotificationService.init(),
             Permissions.checkPermissionLocation(),
             UserLocation.determinePosition(),
-            //UserLocation.getCurrentLocation(),
-            //UserLocation().getUserLocation(),
+            userProvider.init(),
           ]),
           builder: (
             context,
@@ -66,10 +55,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        //UserNameDisplay(),
                         //Text(userProvider.userModel.firstName),
                         locationPermissionGranted
-                            ? AddressDisplay(
-                                position: snapshot.data![2] as Position)
+                            ? Text(snapshot.data![2].toString())
+                            // AddressDisplay(
+                            //     position: snapshot.data![2] as Position)
                             : HomeScreenButton(
                                 title: 'Allow Location',
                                 onPressed: () async {

@@ -48,12 +48,4 @@ class UserLocation {
         await placemarkFromCoordinates(position.latitude, position.altitude);
     return placemarks[0];
   }
-
-  // static Future<Position> getCurrentLocation() async {
-  //   Position position = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
-
-  //   return position;
-  // }
 }
