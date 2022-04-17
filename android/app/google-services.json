@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "143258737477",
+    "project_id": "pumba-test",
+    "storage_bucket": "pumba-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143258737477:android:d2e6ebe6b21c6c2de67c2c",
+        "android_client_info": {
+          "package_name": "com.example.pumba_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143258737477-1leiilt4n0a1rcofbdnnippomd7g1o32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCslXGSLRDf9q84dvFhvSDGtS4QjEGj6RI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143258737477-1leiilt4n0a1rcofbdnnippomd7g1o32.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
