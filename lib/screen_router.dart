@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:pumba_test/providers/shared_pref_provider.dart';
 import 'package:pumba_test/screens/home_screen.dart';
 import 'package:pumba_test/screens/waiting_screen.dart';
-
-import './screens/register_screen.dart';
+import 'package:pumba_test/screens/register_screen.dart';
 
 class ScreenRouter extends StatelessWidget {
   const ScreenRouter({Key? key}) : super(key: key);

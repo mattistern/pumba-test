@@ -12,8 +12,8 @@ class NotificationService {
 
     await _notifications.initialize(settings);
     tz.initializeTimeZones();
-    final locationName = await FlutterNativeTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(locationName));
+    // final locationName = await FlutterNativeTimezone.getLocalTimezone();
+    // tz.setLocalLocation(tz.getLocation(locationName));
   }
 
   static NotificationDetails _notificationDetails() {

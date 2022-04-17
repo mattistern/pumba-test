@@ -9,10 +9,10 @@ enum Gender {
 }
 
 class UserModel {
-  final String firstName;
-  final String lastName;
-  final String email;
-  final Gender gender;
+  late final String firstName;
+  late final String lastName;
+  late final String email;
+  late final Gender gender;
 
   UserModel({
     required this.firstName,

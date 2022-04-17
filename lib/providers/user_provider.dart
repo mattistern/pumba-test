@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pumba_test/models/user_model.dart';
+import 'package:pumba_test/screens/waiting_screen.dart';
 
 class UserProvider with ChangeNotifier {
   var _isLoading = false;
@@ -18,7 +19,6 @@ class UserProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    print('Register User');
     var response = await FirebaseFirestore.instance
         .collection('users/')
         .add(userModel.toJson());
@@ -27,5 +27,17 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //void getUser() {}
+  void setGlobalUser(
+    String firstName,
+    String lastName,
+    String email,
+    Gender gender,
+  ) {
+    _userModel.firstName = firstName;
+    _userModel.lastName = lastName;
+    _userModel.email = email;
+    _userModel.gender = gender;
+
+    notifyListeners();
+  }
 }

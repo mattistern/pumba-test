@@ -5,6 +5,7 @@ import 'package:pumba_test/models/user_model.dart';
 import 'package:pumba_test/providers/shared_pref_provider.dart';
 import 'package:pumba_test/providers/user_provider.dart';
 import 'package:pumba_test/screens/home_screen.dart';
+import 'package:pumba_test/screens/waiting_screen.dart';
 import 'package:pumba_test/widgets/gender_selection.dart';
 import 'package:pumba_test/widgets/card_text_input.dart';
 
@@ -26,6 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //a form for validation
   final _formKey = GlobalKey<FormState>();
 
+  //This provider is for managing user in Firebase.
   late UserProvider _userProvider;
 
   ///Try to submit user registration.
@@ -45,6 +47,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       try {
         _userProvider.registerUser(_userModel);
+        // _userProvider.setGlobalUser(
+        //   _userModel.firstName,
+        //   _userModel.lastName,
+        //   _userModel.email,
+        //   _userModel.gender,
+        // );
         Provider.of<SharedPrefProvider>(
           context,
           listen: false,
@@ -59,7 +67,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         );
       } catch (e) {
-        print('Error Accured!');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: $e'),
