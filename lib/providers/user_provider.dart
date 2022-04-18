@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:pumba_test/models/user_model.dart';
 import 'package:pumba_test/screens/waiting_screen.dart';
@@ -31,6 +32,17 @@ class UserProvider with ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  Future<void> getUserFromDB() async {
+    var aaa = await FirebaseFirestore.instance;
+    var url = Uri.parse(aaa.toString());
+    try {
+      final response = await http.get(url);
+      print(response.body);
+    } catch (error) {
+      print(error);
+    }
   }
 
   // ///Creates a UserModel fron Json

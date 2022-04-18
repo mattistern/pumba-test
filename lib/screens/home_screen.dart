@@ -33,6 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    Provider.of<UserProvider>(context, listen: false).getUserFromDB();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
 

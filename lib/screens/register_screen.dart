@@ -47,12 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       try {
         _userProvider.registerUser(_userModel);
-        // _userProvider.setGlobalUser(
-        //   _userModel.firstName,
-        //   _userModel.lastName,
-        //   _userModel.email,
-        //   _userModel.gender,
-        // );
+
         var prefProvider = Provider.of<SharedPrefProvider>(
           context,
           listen: false,
@@ -102,6 +97,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  bool emailValidator(String email) {
+    return RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+        .hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
@@ -111,89 +111,96 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Container(
+            height: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('assets/background_register.jpg'),
                   fit: BoxFit.cover),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'REGISTER',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'REGISTER',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          CardTextInput(
+                            controller: _firstNameController,
+                            lableText: 'First Name',
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please insert first name';
+                              }
+                              return null;
+                            },
+                          ),
+                          CardTextInput(
+                            controller: _lastNameController,
+                            lableText: 'Last Name',
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please insert last name';
+                              }
+                              return null;
+                            },
+                          ),
+                          CardTextInput(
+                            controller: _emailController,
+                            lableText: 'Email',
+                            validator: (value) {
+                              if (!emailValidator(value as String)) {
+                                return 'Please enter a valid email';
+                              }
+
+                              return null;
+                            },
+                          ),
+                          GenderSelection(
+                            selectedGender: _gender,
+                            setGenderFn: _setGender,
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 200),
+                            transitionBuilder:
+                                (Widget child, Animation<double> animation) {
+                              return ScaleTransition(
+                                scale: animation,
+                                child: child,
+                              );
+                            },
+                            child: _userProvider.isLoading
+                                ? const CircularProgressIndicator()
+                                : ElevatedButton(
+                                    onPressed: _trySubmit,
+                                    child: const Text('Register'),
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      CardTextInput(
-                        controller: _firstNameController,
-                        lableText: 'First Name',
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please insert first name';
-                          }
-                          return null;
-                        },
-                      ),
-                      CardTextInput(
-                        controller: _lastNameController,
-                        lableText: 'Last Name',
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please insert last name';
-                          }
-                          return null;
-                        },
-                      ),
-                      CardTextInput(
-                        controller: _emailController,
-                        lableText: 'Email',
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please insert email';
-                          }
-                          return null;
-                        },
-                      ),
-                      GenderSelection(
-                        selectedGender: _gender,
-                        setGenderFn: _setGender,
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        transitionBuilder:
-                            (Widget child, Animation<double> animation) {
-                          return ScaleTransition(
-                            scale: animation,
-                            child: child,
-                          );
-                        },
-                        child: _userProvider.isLoading
-                            ? const CircularProgressIndicator()
-                            : ElevatedButton(
-                                onPressed: _trySubmit,
-                                child: const Text('Register'),
-                              ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
