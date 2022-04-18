@@ -7,7 +7,7 @@ class NotificationService {
   static final _notifications = FlutterLocalNotificationsPlugin();
 
   ///Initializing the notification.
-  static Future init() async {
+  static Future<void> init() async {
     const android = AndroidInitializationSettings('@drawable/ic_notify');
     const settings = InitializationSettings(android: android);
 

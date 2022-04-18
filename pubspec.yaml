@@ -43,6 +43,7 @@ dependencies:
   geocoding: ^2.0.4
   intl: ^0.17.0
   http: ^0.13.4
+  notification_permissions: ^0.6.1
 
 
   # The following adds the Cupertino Icons font to your application.

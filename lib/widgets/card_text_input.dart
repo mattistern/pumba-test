@@ -5,12 +5,14 @@ class CardTextInput extends StatelessWidget {
   final TextEditingController controller;
   final String lableText;
   final String? Function(String?)? validator;
+  final TextInputType? textInputType;
 
   const CardTextInput({
     Key? key,
     required this.controller,
     required this.lableText,
     required this.validator,
+    this.textInputType,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class CardTextInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: lableText,
           ),
+          keyboardType: textInputType,
           controller: controller,
           validator: validator,
         ),

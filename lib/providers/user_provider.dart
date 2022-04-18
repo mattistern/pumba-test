@@ -18,32 +18,55 @@ class UserProvider with ChangeNotifier {
   ///
   ///We have a bool property twice, start and end.
   ///The bool is called 'isLoading' with notifyListeners().
-  Future<void> registerUser(UserModel userModel) async {
+  Future<String> registerUser(UserModel userModel) async {
     _isLoading = true;
     notifyListeners();
 
-    var response = await FirebaseFirestore.instance
-        .collection('users/')
-        .add(userModel.toJson());
-
-    // setUserId(response.id);
-
-    // _userModel = fromJsonToUser(response.parent.parameters);
-
-    _isLoading = false;
-    notifyListeners();
-  }
-
-  Future<void> getUserFromDB() async {
-    var aaa = await FirebaseFirestore.instance;
-    var url = Uri.parse(aaa.toString());
     try {
-      final response = await http.get(url);
-      print(response.body);
-    } catch (error) {
-      print(error);
+      var response = await FirebaseFirestore.instance
+          .collection('users/')
+          .add(userModel.toJson());
+
+      _userModel = userModel;
+
+      _isLoading = false;
+      notifyListeners();
+      return response.id;
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      return '';
     }
   }
+
+  Future<void> getUserData(String userId) async {
+    try {
+      var response = await FirebaseFirestore.instance
+          .collection('users/')
+          .doc(userId)
+          .get();
+
+      _userModel = UserModel.fromJson(response.data()!);
+      response.data()!.forEach(
+        (key, value) {
+          print('$key :: $value');
+        },
+      );
+    } catch (e) {
+      print('userProvider, getUserData error: $e');
+    }
+  }
+
+  // Future<void> getUserFromDB() async {
+  //   var aaa = await FirebaseFirestore.instance;
+  //   var url = Uri.parse(aaa.toString());
+  //   try {
+  //     final response = await http.get(url);
+  //     print(response.body);
+  //   } catch (error) {
+  //     print(error);
+  //   }
+  // }
 
   // ///Creates a UserModel fron Json
   // UserModel fromJsonToUser(Map<String, dynamic> jsonMap) {

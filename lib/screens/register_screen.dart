@@ -29,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   //This provider is for managing user in Firebase.
   late UserProvider _userProvider;
+  late SharedPrefProvider _prefProvider;
 
   ///Try to submit user registration.
   ///
@@ -46,22 +47,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       try {
-        _userProvider.registerUser(_userModel);
+        var userId = await _userProvider.registerUser(_userModel);
 
-        var prefProvider = Provider.of<SharedPrefProvider>(
-          context,
-          listen: false,
-        );
-
-        prefProvider.setIsRegister(true);
-        prefProvider.saveName(_userModel);
-        //prefProvider.saveLastName(_userModel);
+        _prefProvider.setIsRegister(true);
+        _prefProvider.setUserId(userId);
 
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return HomeScreen();
+              return const HomeScreen();
             },
           ),
         );
@@ -82,11 +77,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   //It's important to dispose all controllers to avoid memory leak.
   @override
   void dispose() {
@@ -105,6 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
+    _prefProvider = Provider.of<SharedPrefProvider>(context, listen: false);
 
     return GestureDetector(
       onTap: () {
@@ -163,6 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           CardTextInput(
                             controller: _emailController,
+                            textInputType: TextInputType.emailAddress,
                             lableText: 'Email',
                             validator: (value) {
                               if (!emailValidator(value as String)) {

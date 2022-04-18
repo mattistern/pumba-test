@@ -21,6 +21,38 @@ class UserModel {
     required this.gender,
   });
 
+  UserModel.fromJson(Map<String, dynamic> jsonMap) {
+    firstName = jsonMap['firstName'];
+    lastName = jsonMap['lastName'];
+    email = jsonMap['email'];
+    gender = _stringToGender(jsonMap['gender'] as String);
+  }
+
+  ///Tranforms String to Gender
+  Gender _stringToGender(String genderString) {
+    switch (genderString) {
+      case 'male':
+        return Gender.male;
+      case 'female':
+        return Gender.female;
+      case 'other':
+        return Gender.other;
+
+      default:
+        return Gender.other;
+    }
+  }
+
+  ///Creates a UserModel fron Json
+  UserModel fromJsonToUser(Map<String, dynamic> jsonMap) {
+    return UserModel(
+      firstName: jsonMap['firstName'],
+      lastName: jsonMap['lastName'],
+      email: jsonMap['email'],
+      gender: _stringToGender(jsonMap['gender'] as String),
+    );
+  }
+
   ///Creates a Json map
   Map<String, dynamic> toJson() {
     return {

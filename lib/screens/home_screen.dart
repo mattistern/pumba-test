@@ -7,14 +7,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
 import 'package:pumba_test/models/user_model.dart';
+import 'package:pumba_test/providers/shared_pref_provider.dart';
 import 'package:pumba_test/screens/waiting_screen.dart';
 import 'package:pumba_test/utils/notification_service.dart';
 import 'package:pumba_test/utils/permissions.dart';
 import 'package:pumba_test/utils/user_location.dart';
 import 'package:pumba_test/widgets/address_display.dart';
+import 'package:pumba_test/widgets/home_content.dart';
 import 'package:pumba_test/widgets/home_screen_button.dart';
 import 'package:pumba_test/providers/user_provider.dart';
-import 'package:pumba_test/widgets/user_name_disply.dart';
+import 'package:pumba_test/widgets/user_name_display.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,17 +26,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var _startIsPressed = false;
-
-  void startPress() {
-    setState(() {
-      _startIsPressed = true;
-    });
-  }
-
   @override
   void initState() {
-    Provider.of<UserProvider>(context, listen: false).getUserFromDB();
+    // Provider.of<UserProvider>(context, listen: false).getUserFromDB();
 
     super.initState();
   }
@@ -42,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
+    var sharedPrefProvider = Provider.of<SharedPrefProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -51,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FutureBuilder(
           future: Future.wait([
             NotificationService.init(),
-            Permissions.checkPermissionLocation(),
-            UserLocation.determinePosition(),
-            //userProvider.init(),
+            Permissions.checkPermissionLocationGranted(),
+            Permissions.askPermissionNotification(),
+            userProvider.getUserData(sharedPrefProvider.userId),
           ]),
           builder: (
             context,
@@ -67,52 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
 
               case ConnectionState.done:
-                if (snapshot.hasData) {
-                  PermissionStatus locationPermissionstatus =
-                      snapshot.data![1] as PermissionStatus;
-                  return Container(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _startIsPressed
-                            ? Text(
-                                'The notification will appear at ${DateFormat.Hm().format(
-                                DateTime.now().add(const Duration(minutes: 2)),
-                              )}')
-                            : UserNameDisplay(),
-                        locationPermissionstatus.isGranted
-                            ? Text(snapshot.data![2].toString())
-                            // AddressDisplay(
-                            //     position: snapshot.data![2] as Position)
-                            : HomeScreenButton(
-                                title: 'Allow Location',
-                                onPressed: () async {
-                                  await Permissions.askPermissionLocation();
-                                  setState(() {});
-                                },
-                              ),
-                        SizedBox(height: 30),
-                        HomeScreenButton(
-                          title: 'Start',
-                          onPressed: () {
-                            NotificationService.showScheduledNotification(
-                              id: 1,
-                              title: 'Pumba',
-                              body: 'Hi',
-                            );
-                            startPress();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: Text('Something went wrong'),
-                  );
-                }
+                return HomeContent(data: snapshot.data!);
+
               default:
                 return Container();
             }
