@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,11 +24,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var startIsPressed = false;
+  var _startIsPressed = false;
 
   void startPress() {
     setState(() {
-      startIsPressed = true;
+      _startIsPressed = true;
     });
   }
 
@@ -44,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
             NotificationService.init(),
             Permissions.checkPermissionLocation(),
             UserLocation.determinePosition(),
-            userProvider.init(),
+            //userProvider.init(),
           ]),
           builder: (
             context,
@@ -53,22 +55,27 @@ class _HomeScreenState extends State<HomeScreen> {
             //Show the widget duo to the snapshot.connectionState
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return const WaitingScreen();
+                return const Center(
+                  child: WaitingScreen(),
+                );
 
               case ConnectionState.done:
                 if (snapshot.hasData) {
-                  bool locationPermissionGranted = snapshot.data![1] as bool;
+                  PermissionStatus locationPermissionstatus =
+                      snapshot.data![1] as PermissionStatus;
                   return Container(
                     width: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        startIsPressed
+                        _startIsPressed
                             ? Text(
-                                'The notification will appear at ${DateFormat.Hm().format(DateTime.now().add(Duration(minutes: 2)))}')
-                            : Text('userProvider.userModel.firstName'),
-                        locationPermissionGranted
+                                'The notification will appear at ${DateFormat.Hm().format(
+                                DateTime.now().add(const Duration(minutes: 2)),
+                              )}')
+                            : UserNameDisplay(),
+                        locationPermissionstatus.isGranted
                             ? Text(snapshot.data![2].toString())
                             // AddressDisplay(
                             //     position: snapshot.data![2] as Position)

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pumba_test/providers/shared_pref_provider.dart';
 import 'package:pumba_test/screens/waiting_screen.dart';
 
 import '../providers/user_provider.dart';
@@ -10,19 +11,23 @@ class UserNameDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    var sharedPrefProvider =
+        Provider.of<SharedPrefProvider>(context, listen: false);
 
     return FutureBuilder(
-      future: userProvider.init(),
+      future: sharedPrefProvider.init(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
 
           case ConnectionState.done:
-            return Container(child: Text(userProvider.userModel.firstName));
+            return Container(
+              child: Text(
+                  'Hello ${sharedPrefProvider.firstName}, how are you today?'),
+            );
           default:
             return Container();
         }

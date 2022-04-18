@@ -8,10 +8,8 @@ class WaitingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
+        child: Center(
+          child: CircularProgressIndicator(),
         ),
       ),
     );

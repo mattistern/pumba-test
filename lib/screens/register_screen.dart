@@ -53,10 +53,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         //   _userModel.email,
         //   _userModel.gender,
         // );
-        Provider.of<SharedPrefProvider>(
+        var prefProvider = Provider.of<SharedPrefProvider>(
           context,
           listen: false,
-        ).setIsRegister(true);
+        );
+
+        prefProvider.setIsRegister(true);
+        prefProvider.saveName(_userModel);
+        //prefProvider.saveLastName(_userModel);
 
         Navigator.pushReplacement(
           context,
@@ -76,6 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  ///Manage the gender selection.
   void _setGender(Gender gender) {
     setState(() {
       _gender = gender;
@@ -87,6 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.initState();
   }
 
+  //It's important to dispose all controllers to avoid memory leak.
   @override
   void dispose() {
     _firstNameController.dispose();
