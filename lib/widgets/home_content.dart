@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:notification_permissions/notification_permissions.dart' as np;
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:pumba_test/utils/user_location.dart';
 import 'package:pumba_test/widgets/user_name_display.dart';
 
@@ -25,7 +25,7 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   Timer? _timer;
-  bool? _locationPermissionIsGranted;
+  LocationPermission? _locationPermissionIsGranted;
   var _startIsPressed = false;
   Position? _position;
 
@@ -66,11 +66,13 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (widget.data[1] != null && _locationPermissionIsGranted != null) {
-      _locationPermissionIsGranted = (widget.data[1] as bool);
-    }
+  void initState() {
+    _locationPermissionIsGranted = (widget.data[1] as LocationPermission);
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     print(
         'locationPermissionIsGranted -- build -- $_locationPermissionIsGranted');
     return SizedBox(
@@ -84,7 +86,8 @@ class _HomeContentState extends State<HomeContent> {
                   DateTime.now().add(const Duration(minutes: 2)),
                 )}')
               : const UserNameDisplay(),
-          _locationPermissionIsGranted != null && _locationPermissionIsGranted!
+          _locationPermissionIsGranted != null &&
+                  _locationPermissionIsGranted! != LocationPermission.denied
               ? _position == null
                   ? getLocation()
                   : Text(_position.toString())
@@ -93,7 +96,8 @@ class _HomeContentState extends State<HomeContent> {
                   onPressed: () async {
                     await UserLocation.determinePosition();
                     _locationPermissionIsGranted =
-                        await Permissions.checkPermissionLocationGranted();
+                        await Geolocator.checkPermission();
+                    // await Permissions.checkPermissionLocationGranted();
 
                     print(
                         'locationPermissionIsGranted -- $_locationPermissionIsGranted');

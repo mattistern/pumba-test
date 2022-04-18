@@ -46,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FutureBuilder(
           future: Future.wait([
             NotificationService.init(),
-            Permissions.checkPermissionLocationGranted(),
+            // Permissions.checkPermissionLocationGranted(),
+            Geolocator.checkPermission(),
             Permissions.askPermissionNotification(),
             userProvider.getUserData(sharedPrefProvider.userId),
           ]),
